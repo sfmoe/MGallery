@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moes Gallery</title>
+    <style>
+        html{
+            font-size: 8px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+
+        div.gallery{
+            column-count: 5;
+            column-gap: .5rem;
+            width:100%;
+
+        }
+
+        .gallery > a {
+            display: inline-block;
+            background: #eee;
+        }
+
+        .gallery >a >img{
+            width: 100%;
+            height: 100%;
+        }
+
+        .full-image{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        max-width: 80%;
+        max-height: 75%;
+        z-index: 9999999;
+        }
+        .gallery-overlay {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999;
+            background: rgba(255,255,255,.75);
+        }
+
+        span.close{
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            cursor: pointer;
+            display:block;
+        }
+        
+        span.close:before{
+            display: block;
+            content: 'x';
+            height: 20px;
+            width: 20px;
+            font-size: 3rem;
+            font-weight: 900;
+        }
+
+        .gallery-overlay span.next{
+            position: fixed;
+            right: 1%;
+            top: 50%;
+            font-size: 2em;
+            cursor: pointer;
+        }
+
+        .gallery-overlay span.next:before{
+            display: block;
+            content: '\003e';
+        }
+
+        .gallery-overlay span.prev{
+            position: fixed;
+            left: 1%;
+            top: 50%;
+            font-size: 2em;
+            cursor: pointer;
+        }
+        .gallery-overlay span.prev:before{
+            display: block;
+            content: '\003c';
+        }
+    </style>
+    <script src="gallery.js"></script>
+
+</head>
+<body>
+
+        <h1>M Gallery</h1>
+        <div class="gallery">
+
+            <a href="/#photo-1.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196.jpg?text=photo-1-thumb" />
+            </a>
+            
+
+
+            <a href="/#photo-2.jpg" data-location="https://via.placeholder.com/595x796?text=">
+                <img src="https://via.placeholder.com/295x444?text=photo-2-thumb" />
+            </a>
+            
+
+
+            <a href="/#photo-3.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196?text=photo-3-thumb" />
+            </a>
+
+            <a href="/#photo-4.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196.jpg?text=photo-4-thumb" />
+            </a>
+            
+
+
+            <a href="/#photo-5.jpg" data-location="https://via.placeholder.com/595x796?text=">
+                <img src="https://via.placeholder.com/295x444?text=photo-5-thumb" />
+            </a>
+            
+
+
+            <a href="/#photo-6.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196?text=photo-6-thumb" />
+            </a>
+
+
+            <a href="/#photo-7.jpg" data-location="https://via.placeholder.com/595x796?text=">
+                <img src="https://via.placeholder.com/295x444?text=photo-7-thumb" />
+            </a>
+
+            <a href="/#photo-8.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196.jpg?text=photo-8-thumb" />
+            </a>
+
+            <a href="/#photo-9.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196.jpg?text=photo-9-thumb" />
+            </a>
+
+            <a href="/#photo-10.jpg" data-location="https://via.placeholder.com/595x796?text=">
+                <img src="https://via.placeholder.com/295x444?text=photo-10-thumb" />
+            </a>
+
+            <a href="/#photo-11.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196?text=photo-11-thumb" />
+            </a>
+
+            <a href="/#photo-12.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196?text=photo-12-thumb" />
+            </a>
+
+            <a href="/#photo-13.jpg" data-location="https://via.placeholder.com/595x496?text=">
+                <img src="https://via.placeholder.com/295x196?text=photo-13-thumb" />
+            </a>
+            <a href="/#photo-14.jpg" data-location="https://via.placeholder.com/595x796?text=">
+                <img src="https://via.placeholder.com/295x444?text=photo-14-thumb" />
+            </a>      
+
+        </div>
+</body>
+</html>
