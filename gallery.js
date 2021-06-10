@@ -28,7 +28,7 @@ const MGallery = (gallery)=>{
     };
 
     const changeImage = (direction, current) => {
-        let  currentImageNumber = parseInt(current.getAttribute("data-image-count"));
+        let  currentImageNumber = parseInt(current.dataset.imageCount);
         let updatedImageNumber;
         closeGallery();
         if(direction == "next"){
@@ -39,7 +39,7 @@ const MGallery = (gallery)=>{
 
 
     galleryItems.forEach((ge, gindex) =>{
-        let ImageCountAttribute = ge.getAttribute("data-image-count");
+        let ImageCountAttribute = ge.dataset.imageCount;
 
         if(ImageCountAttribute == updatedImageNumber){
            
@@ -53,8 +53,8 @@ const MGallery = (gallery)=>{
 
 
     const showImage =  (selectedImage) => {
-        let folder = selectedImage.getAttribute('data-location');
-        let currentImage = selectedImage.getAttribute("data-image-count");
+        let folder = selectedImage.dataset.location;
+        let currentImage = selectedImage.dataset.imageCount;
         if(currentImage == 0){
             document.getElementsByClassName("prev")[0].style.display = "none";
         }else{
@@ -75,7 +75,7 @@ const MGallery = (gallery)=>{
         fullImage.className = "full-image";
         fullImage.id = "fullImage";
         fullImage.src = image;
-        fullImage.setAttribute("data-image-count", currentImage);
+        fullImage.dataset.imageCount = currentImage;
         //disable right click
         fullImage.addEventListener("contextmenu", function(e){
             e.preventDefault();
@@ -152,7 +152,7 @@ const MGallery = (gallery)=>{
 
     /* enumerate the gallery items and add click event */
     galleryItems.forEach(function(ge, gindex){
-        ge.setAttribute("data-image-count", gindex);
+        ge.dataset.imageCount = gindex;
 
         ge.addEventListener("click", function(event){
             event.preventDefault();
