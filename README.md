@@ -1,9 +1,11 @@
-# M Gallery
+# MGallery
 
 ## Gallery navigation in single page
 
 
-I created M Gallery to user on my website [moemartinez.com](https://moemartinez.com) and im re-writing it so that it can be dropped in anywhere.
+I created MGallery to use on my website [moemartinez.com](https://moemartinez.com) and I'm re-writing it so that it can be dropped in anywhere.
+
+a sample can also be viewed here: [https://sfmoe.github.io/MGallery/](https://sfmoe.github.io/MGallery/)
 
 ## Instructions
 
