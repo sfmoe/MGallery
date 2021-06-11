@@ -1,22 +1,22 @@
-const MGallery = (gallery)=>{
+const MGallery = (gallery, galleryName="MG")=>{
+    
 
     const closeGallery = ()=>{
-        toggleOverlay(galleryOverlay);
-        document.body.querySelector(".full-image").remove();
-        history.pushState("", document.title, window.location.pathname + window.location.search);
-        document.title = originalPageTitle; 
+        toggleOverlay(galleryOverlay, "hide");
+        history.pushState("", originalPageTitle, window.location.pathname + window.location.search);
+        document.title = originalPageTitle;
+        hashChange();
     };
 
     const hashChange = () => {
-        if(window.location.hash != "" && gallery){
+        if(window.location.hash != ""){
             let loadGallery = gallery;
             findImageByHREF( loadGallery.querySelectorAll("a"), window.location.hash );
           }else{
               if(window.location.hash == '' && galleryOverlay.style.display=='block'){
-            toggleOverlay(galleryOverlay);
-            document.body.querySelector(".full-image").remove();
+            toggleOverlay(galleryOverlay, "hide");
               }
-          }
+            }
     };
 
     const findImageByHREF = (elements, hash) => {
@@ -30,22 +30,16 @@ const MGallery = (gallery)=>{
     const changeImage = (direction, current) => {
         let  currentImageNumber = parseInt(current.dataset.imageCount);
         let updatedImageNumber;
-        closeGallery();
         if(direction == "next"){
             updatedImageNumber = currentImageNumber+1;
-        }else{
+        }else if (direction == "prev"){
             updatedImageNumber = currentImageNumber-1;
         }
 
-
-    galleryItems.forEach((ge, gindex) =>{
-        let ImageCountAttribute = ge.dataset.imageCount;
-
-        if(ImageCountAttribute == updatedImageNumber){
-           
-        window.location = window.location.pathname + ge.hash;
-       }
-    });
+        let nextImage = gallery.querySelector("a[data-image-count='"+updatedImageNumber+"']");
+        document.body.querySelector(".full-image").remove();
+        history.pushState("", originalPageTitle, window.location.pathname + nextImage.hash);
+        hashChange();
     
         
     };
@@ -55,6 +49,7 @@ const MGallery = (gallery)=>{
     const showImage =  (selectedImage) => {
         let folder = selectedImage.dataset.location;
         let currentImage = selectedImage.dataset.imageCount;
+
         if(currentImage == 0){
             document.getElementsByClassName("prev")[0].style.display = "none";
         }else{
@@ -68,35 +63,46 @@ const MGallery = (gallery)=>{
         
         let image = folder+selectedImage.hash.substr(1);
         let fullHash = selectedImage.hash;
-       
-        toggleOverlay(galleryOverlay);
-      
-        let fullImage = document.createElement("img");
-        fullImage.className = "full-image";
-        fullImage.id = "fullImage";
+        
+        toggleOverlay(galleryOverlay, "show");
+        let fullImage;
+        if(document.body.querySelector(".full-image")){
+            fullImage = document.body.querySelector(".full-image");
+        }else{
+            fullImage = document.createElement("img");
+            fullImage.className = "full-image";
+            fullImage.id = "fullImage";
+        }
+
         fullImage.src = image;
         fullImage.dataset.imageCount = currentImage;
         //disable right click
-        fullImage.addEventListener("contextmenu", function(e){
-            e.preventDefault();
-        }, false);
+        fullImage.addEventListener("contextmenu", (e)=>{e.preventDefault();}, false);
         document.body.appendChild(fullImage);
         document.title = fullHash.substr(1) + " | " + originalPageTitle; 
+        
         
     };
 
 
-    const toggleOverlay = (elem) => {
-        //hide it
-        if (window.getComputedStyle(elem).display === 'block') {
-            elem.style.display = 'none';
-            document.documentElement.style.overflow ="scroll";
-            return;
-        }
-    
-        //show it
-        elem.style.display = 'block';
-        document.documentElement.style.overflow ="hidden";   
+    const toggleOverlay = (elem, status) => {
+
+        
+        const show = ()=>{
+            elem.style.display = 'block';
+            document.documentElement.style.overflow ="hidden"; 
+        };
+
+        const hide = ()=>{
+            if (window.getComputedStyle(elem).display === 'block') {
+                elem.style.display = 'none';
+                document.body.querySelector(".full-image").remove();
+                document.documentElement.style.overflow ="scroll";
+            }
+        };
+
+        (status == "show")? show() : hide();    
+  
     };
 
     const createOverlay = () => {
@@ -116,12 +122,6 @@ const MGallery = (gallery)=>{
         document.getElementsByTagName("body")[0].appendChild(overlayDiv);
     }
 
-
-    window.addEventListener("hashchange", function(){
-        hashChange();
-    });
-
-
     const galleryItems = gallery.querySelectorAll("a");
     createOverlay();
     const galleryOverlay = document.getElementsByClassName("gallery-overlay")[0];
@@ -131,24 +131,27 @@ const MGallery = (gallery)=>{
 
         //event listeners for gallery overlay
         galleryOverlay.querySelector(".close").addEventListener("click", function(){
-            event.stopPropagation()
             closeGallery()
         });
 
-        galleryOverlay.addEventListener("click",function(){
+        galleryOverlay.addEventListener("click",function(event){
             closeGallery();
         });
     
-        galleryOverlay.querySelector(".next").addEventListener("click",function(){
+        galleryOverlay.querySelector(".next").addEventListener("click",function(event){
             event.stopPropagation();
             changeImage("next", document.getElementById("fullImage"));
         });
     
-        galleryOverlay.querySelector(".prev").addEventListener("click",function(){
+        galleryOverlay.querySelector(".prev").addEventListener("click",function(event){
             event.stopPropagation();
             changeImage("prev", document.getElementById("fullImage"));
-    
         });
+
+        window.addEventListener("hashchange", function(){
+            hashChange();
+        });
+
 
     /* enumerate the gallery items and add click event */
     galleryItems.forEach(function(ge, gindex){
@@ -156,8 +159,11 @@ const MGallery = (gallery)=>{
 
         ge.addEventListener("click", function(event){
             event.preventDefault();
-            //this.hash is the #url in href of the link
-            window.location = window.location.pathname + this.hash;    
+            //this.hash is the #url in href of the link 
+            history.pushState("", originalPageTitle, window.location.pathname + this.hash);
+            hashChange();
+        
+         
         });
         //set the lastimage index
         lastimage = gindex;
@@ -170,5 +176,5 @@ const MGallery = (gallery)=>{
 };
 
 window.onload = ()=>{
-    MGallery(document.getElementsByClassName("gallery")[0]);
+   MGallery(document.getElementsByClassName("gallery")[0]);
 };
