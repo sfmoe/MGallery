@@ -1,6 +1,8 @@
 const MGallery = (gallery, galleryName="MG")=>{
     
-
+    //exit if gallery is not found
+    if(typeof gallery == 'undefined'){return false;}
+    
     const closeGallery = ()=>{
         toggleOverlay(galleryOverlay, "hide");
         history.pushState("", originalPageTitle, window.location.pathname + window.location.search);
@@ -122,6 +124,29 @@ const MGallery = (gallery, galleryName="MG")=>{
         document.getElementsByTagName("body")[0].appendChild(overlayDiv);
     }
 
+    const swipe = (start, end)=>{
+        if(window.location.hash !== '' && galleryOverlay.style.display=='block'){
+        (start > end)? changeImage("next", document.getElementById("fullImage")): changeImage("prev", document.getElementById("fullImage"));  
+        }  
+    };
+    const swipeInit = ()=>{
+        let touchStartX = 0;
+        let touchEndX = 0;
+    
+        document.body.addEventListener('touchstart', function(event) {
+            touchStartX = event.touches[0].clientX;
+        }, false);
+        
+        document.body.addEventListener('touchmove', function(event) {
+            touchEndX = event.touches[0].clientX;        
+          });
+    
+        document.body.addEventListener('touchend', function(event) {
+            swipe(touchStartX, touchEndX);
+        }, false); 
+    
+    };
+
     const galleryItems = gallery.querySelectorAll("a");
     createOverlay();
     const galleryOverlay = document.getElementsByClassName("gallery-overlay")[0];
@@ -171,7 +196,7 @@ const MGallery = (gallery, galleryName="MG")=>{
 
 
     hashChange();
-
+    swipeInit();
 
 };
 
