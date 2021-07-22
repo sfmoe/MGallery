@@ -32,18 +32,23 @@ const MGallery = (gallery, galleryName="MG")=>{
     const changeImage = (direction, current) => {
         let  currentImageNumber = parseInt(current.dataset.imageCount);
         let updatedImageNumber;
+        let allowChange = true;
         if(direction == "next"){
             updatedImageNumber = currentImageNumber+1;
         }else if (direction == "prev"){
             updatedImageNumber = currentImageNumber-1;
         }
 
+        if(updatedImageNumber > lastimage|| updatedImageNumber < 0) { 
+            allowChange = false; 
+        }
+        
+        if(allowChange){
         let nextImage = gallery.querySelector("a[data-image-count='"+updatedImageNumber+"']");
         document.body.querySelector(".full-image").remove();
         history.pushState("", originalPageTitle, window.location.pathname + nextImage.hash);
         hashChange();
-    
-        
+        }
     };
 
 
@@ -108,7 +113,6 @@ const MGallery = (gallery, galleryName="MG")=>{
     };
 
     const createOverlay = () => {
-        /*currently not being used*/
         let overlayDiv = document.createElement("div");
             overlayDiv.classList.add("gallery-overlay");
         let closeButton = document.createElement("span");
