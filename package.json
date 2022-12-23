@@ -1,0 +1,20 @@
+{
+  "name": "mgallery",
+  "version": "0.5.0",
+  "description": "MGallery is a standalone image gallery with modal popup viewer with navigation and browser history",
+  "main": "./src/mgallery.js",
+  "type": "module",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfmoe/MGallery.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sfmoe/MGallery/issues"
+  },
+  "homepage": "https://github.com/sfmoe/MGallery"
+}
