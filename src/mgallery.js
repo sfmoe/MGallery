@@ -5,6 +5,7 @@ export class MGallery {
         if (typeof options.gallery == 'undefined') {
             throw Error("missing gallery object")
         }
+        this.originalPageTitle = document.title;
         this.lastimage = 0;
         options.gallery = (options.gallery.current) ? options.gallery.current : options.gallery; // fix for react ref
 
@@ -35,8 +36,7 @@ export class MGallery {
 
     hashChange = () => {
         if (window.location.hash != "") {
-            let loadGallery = this.gallery;
-            this.findImageByHREF(loadGallery.querySelectorAll("a"), window.location.hash);
+            this.findImageByHREF(this.gallery.querySelectorAll("a"), window.location.hash);
         } else {
             if (window.location.hash == '' && this.galleryOverlay.style.display == 'block') {
                 this.toggleOverlay(this.galleryOverlay, "hide");
@@ -46,9 +46,7 @@ export class MGallery {
 
     findImageByHREF = (elements, hash) => {
         for (let i = 0; i < elements.length; i++) {
-            if (`#${
-                elements[i].getAttribute("href")
-            }` == hash) {
+            if (`#${elements[i].getAttribute("href")}` == hash) {
                 this.showImage(elements[i]);
             }
         }
@@ -93,6 +91,7 @@ export class MGallery {
     };
    
     changeImage = (direction) => {
+        let _mgallery = this;
         let current = document.querySelector("#fullImage");
         let currentImageNumber = Number(current.getAttribute("data-image-count"));
         let updatedImageNumber;
@@ -103,13 +102,14 @@ export class MGallery {
         } else if (direction == "prev") {
             updatedImageNumber = currentImageNumber - 1;
         }
-
+        console.log(this.lastimage)
         if (updatedImageNumber > this.lastimage || updatedImageNumber < 0) {
             allowChange = false;
         }
 
         if (allowChange) {
             let nextImage = this.gallery.querySelector(`a[data-image-count='${updatedImageNumber}']`);
+
             let newURI = `#${nextImage.href}`;
 
             if (window.location.hash != newURI) {
@@ -120,8 +120,10 @@ export class MGallery {
     };
     createOverlay = () => {
         let _mgallery = this;
-        if (!document.querySelector(".gallery-overlay")) { // if user created modal overlay exists ( or it has been created already dont make another)
+        let overlayName = `gallery-overlay-${Math.floor(Math.random() * 100)}`
+        if (!document.querySelector("#"+overlayName)) { // if modal overlay exists ( or it has been created already dont make another)
             let overlayDiv = document.createElement("div");
+            overlayDiv.setAttribute("id", overlayName);
             overlayDiv.classList.add("gallery-overlay");
             let closeButton = document.createElement("div");
             closeButton.classList.add("close");
@@ -222,8 +224,8 @@ export class MGallery {
             overlayDiv.appendChild(style);
             document.getElementsByTagName("body")[0].appendChild(overlayDiv);
         }
-
-        return document.querySelector(".gallery-overlay");
+        return document.querySelector("#"+overlayName);
+ 
     }
 
     toggleOverlay = (elem, status) => {
@@ -279,6 +281,7 @@ export class MGallery {
 
 
     init = function () {
+        this.lastimage = this.galleryItems.length-1;
         let _mgallery = this;
 
         this.galleryItems.forEach((ge, gindex) => {
@@ -295,8 +298,6 @@ export class MGallery {
 
 
             });
-            // set the lastimage index
-            _mgallery.lastimage = gindex;
         });
 
             window.addEventListener("hashchange", ()=>_mgallery.hashChange())
