@@ -33,8 +33,21 @@
     </style>
 </head>
 <body>
-    <div class="gallery">
 
+    <div class="gallery1">
+      <a href="https://via.placeholder.com/595x496?text=1">
+      <img src="https://via.placeholder.com/295x196.jpg?text=photo-1-thumb" />
+      </a>
+      <a href="https://via.placeholder.com/595x496?text=2">
+      <img src="https://via.placeholder.com/295x196.jpg?text=photo-1-thumb" />
+      </a>
+      <a href="https://via.placeholder.com/595x496?text=3">
+      <img src="https://via.placeholder.com/295x196.jpg?text=photo-1-thumb" />
+      </a>
+    </div>
+
+    <div class="gallery2">
+      <!-- empty so it can be created from an array of objects -->
     </div>
  <script type="module" src="./src/mgallery.js"></script>
  <script type="module">
@@ -51,8 +64,8 @@
     { src: "https://via.placeholder.com/595x496?text=file9", thumb: "https://via.placeholder.com/595x496?text=file9", alt: "file9"},
   ]
     window.addEventListener("load",()=>{
-
-        const g = new MGallery({gallery: images, build: true, container: ".gallery"});
+        const g1 = new MGallery({gallery: document.querySelector(".gallery1"), container: ".gallery1"});
+        const g2 = new MGallery({gallery: images, build: true, container: ".gallery2"});
     })
  </script>
 </body>

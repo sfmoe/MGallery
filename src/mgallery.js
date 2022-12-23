@@ -102,7 +102,6 @@ export class MGallery {
         } else if (direction == "prev") {
             updatedImageNumber = currentImageNumber - 1;
         }
-        console.log(this.lastimage)
         if (updatedImageNumber > this.lastimage || updatedImageNumber < 0) {
             allowChange = false;
         }
