@@ -7,7 +7,8 @@ export class MGallery {
         }
         this.lastimage = 0;
         options.gallery = (options.gallery.current) ? options.gallery.current : options.gallery; // fix for react ref
-        this.galleryItems = (typeof options.gallery != "object") ? Array.from(options.gallery.querySelectorAll("a")) : this.convert(options.gallery);
+
+        this.galleryItems = (Array.isArray(options.gallery)) ? this.convert(options.gallery) : Array.from(options.gallery.querySelectorAll("a"));
         this.build = (options.build) ? true : false;
 
         this.gallery = (options.container) ? document.querySelector(options.container) : options.gallery;
